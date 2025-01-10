@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sustainable Urban Agriculture Platform</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      background-color: #f4f4f9;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #2a7a4a;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding-top: 50px;
+      color: white;
+    }
+
+    .sidebar a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      padding: 15px 20px;
+      font-size: 16px;
+    }
+
+    .sidebar a:hover {
+      background-color: #1d5633;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Navbar */
+    .navbar {
+      width: calc(100% - 220px);
+      background-color: #2a7a4a;
+      height: 50px;
+      margin-left: 220px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 5px 10px;
+    }
+
+    .navbar a:hover {
+      background-color: #1d5633;
+      border-radius: 5px;
+    }
+
+    /* Main Content */
+    .main-content {
+      margin-top: 60px;
+      margin-left: 240px;
+      padding: 20px;
+    }
+
+    /* Section styles */
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Carousel */
+    .carousel {
+      position: relative;
+      max-width: 100%;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-inner img {
+      flex: 0 0 100%;
+      width: 50%;
+      height: 40vh;
+      object-fit: contain; 
+      margin: auto;
+    }
+
+    .carousel-control {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      font-size: 2em;
+      cursor: pointer;
+      padding: 10px 20px;
+      z-index: 10;
+    }
+
+    .carousel-control.left {
+      left: 10px;
+    }
+
+    .carousel-control.right {
+      right: 10px;
+    }
+
+    .carousel-control:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Info Section */
+    .info-section {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-section h2 {
+      color: #3A9D70;
+    }
+
+    .info-section p {
+      font-size: 1.1em;
+      color: #555;
+    }
+
+    /* About Section */
+    .about-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-section h2 {
+      color: #3A9D70;
+    }
+
+    .about-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    /* Product Section */
+    .product-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .product-section h2 {
+      color: #2a7a4a;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .product-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .product-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* Video Section */
+    .video-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .video-section h2 {
+      color: #1d5633;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .video-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .video-section video {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* Contact Section */
+    .contact-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .contact-section h2 {
+      color: #2a7a4a;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .contact-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .contact-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* Email Section */
+    .email-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .email-section h2 {
+      color: #1d5633;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .email-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .email-section a {
+      color: #2a7a4a;
+      text-decoration: none;
+    }
+
+    .email-section a:hover {
+      text-decoration: underline;
+    }
+    /* Knowledge Library Section */
+    .knowledge-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .knowledge-section h2 {
+      color: #2a7a4a;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .knowledge-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+    }
+    /* Environmental Impact Calculator Section */
+    .impact-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .impact-section h2 {
+      color: #3A9D70;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .impact-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .impact-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* Projects Section */
+    .projects-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .projects-section h2 {
+      color: #3A9D70;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .projects-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .projects-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* News Section */
+    .news-section {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+
+    .news-section h2 {
+      color: #3A9D70;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .news-section p {
+      font-size: 1.1em;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .news-section img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a href="#" onclick="showSection('knowledge')">Knowledge Library</a>
+    <a href="#" onclick="showSection('impact')">Environmental Impact Calculator</a>
+    <a href="#" onclick="showSection('projects')">Community Project Map</a>
+    <a href="#" onclick="showSection('news')">News and Events</a>
+  </div>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <a href="#" onclick="showSection('welcome')">Welcome</a>
+    <a href="#" onclick="showSection('home')">Home</a>
+    <a href="#" onclick="showSection('about')">About</a>
+    <a href="#" onclick="showSection('video')">Video</a>
+    <a href="#" onclick="showSection('contact')">Contact</a>
+    <a href="#" onclick="showSection('email')">Email</a>
+  </div>
+
+ <!-- Main Content -->
+<div class="main-content">
+    <!-- Home Section -->
+    <div id="welcome" class="section active">
+        <div class="welcome-banner">
+            <h1>Welcome to Sustainable Urban Agriculture</h1>
+            <p>
+                Discover how urban farming can transform our cities into sustainable ecosystems. 
+                Join us in building a greener future!
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+   .welcome-banner {
+    position: relative;
+    text-align: center;
+    color: white;
+    padding: 60px 20px;
+    background-image: url('https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/images%20(2).jpg'); /* Replace with your image URL */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex; /* Sử dụng flexbox */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100vh; /* Chiều cao toàn màn hình */
+}
+
+.welcome-banner::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adds a dark transparent overlay */
+    z-index: 1;
+}
+
+.welcome-banner h1 {
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    z-index: 2;
+    position: relative;
+}
+
+.welcome-banner p {
+    font-size: 1.5em;
+    margin: 0 auto;
+    max-width: 800px;
+    z-index: 2;
+    position: relative;
+}
+
+
+    .section {
+        position: relative;
+        padding: 20px;
+        margin: 0 auto;
+    }
+</style>
+
+    <div id="home" class="section">
+      <!-- Carousel -->
+      <div class="carousel">
+        <div class="carousel-inner" id="carouselInner">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Sustainable_Development_Goal_11SustainableCities.svg" alt="SDG 11 Sustainable Cities">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Sustainable_Development_Goal_12ResponsibleConsumption.svg" alt="SDG 12 Responsible Consumption">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/7b/Sustainable_Development_Goal_13Climate.svg" alt="SDG 13 Climate Action">
+          <img src="4.jpg" alt="Urban Agriculture">
+          <img src="https://editverse.com/wp-content/uploads/2024/07/Vertical-Farming-The-Future-of-Urban-Agriculture-scaled.jpg" alt="Urban Rooftop Farming">
+          <img src="6.jpg" alt="Urban Farming Setup">
+        </div>
+        <button class="carousel-control left" onclick="prevSlide()">&#8249;</button>
+        <button class="carousel-control right" onclick="nextSlide()">&#8250;</button>
+      </div>
+
+      <!-- Info Section -->
+      <div class="info-section" id="infoSection">
+        <h2>SDG 11: Sustainable Cities</h2>
+        <p>SDG 11 aims to make cities inclusive, safe, resilient, and sustainable.</p>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="about-section section">
+      <h2>About Sustainable Urban Agriculture</h2>
+      <p>
+        Our vision is to create sustainable, self-reliant urban farming systems that provide fresh food,
+        improve the environment, and foster strong communities.
+      </p>
+      <p>
+        Urban agriculture addresses the growing challenges of food insecurity, environmental degradation,
+        and urbanization. It utilizes rooftops, vacant lots, and indoor spaces to create greener, healthier cities.
+      </p>
+      <p>
+        <strong>Achievements:</strong><br>
+        - Supported over 500 urban farming projects worldwide.<br>
+        - Reduced 200 tons of organic waste.<br>
+        - Partnered with 50+ organizations to promote sustainable practices.
+      </p>
+    </div>
+
+   
+    <!-- Video Section -->
+    <div id="video" class="video-section section">
+      <h2>Video Tutorials</h2>
+      <p>Watch our comprehensive video guides that walk you through every step of setting up and maintaining your urban farm. Learn about soil preparation, plant selection, irrigation techniques, and more.</p>
+      <video controls>
+        <source src="'Flat of the future'- Edible crickets, recycling larvae, mushrooms - ABS-CBN News.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <!-- Contact Section -->
+    <div id="contact" class="contact-section section">
+      <h2>Contact Us</h2>
+      <p>We are here to support you. Reach out to us with your questions or to learn more about our services. Together, we can build a sustainable future.</p>
+      <p> Jakid <p>
+      <p> 1103561 <p>
+      <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/318353587_634731878400399_8439944996072311755_n.jpg" alt="Contact Us">
+    </div>
+
+    <!-- Email Section -->
+    <div id="email" class="email-section section">
+      <h2>Email Us</h2>
+      <p>Have a specific inquiry? Send us an email at <a href="mailto:hoangvykhang1@gmail.com">hoangvykhang1@gmail.com</a> and we will get back to you as soon as possible.</p>
+    </div>
+
+    <!-- Other Sections -->
+    <div id="knowledge" class="knowledge-section section">
+      <h2>Knowledge Library</h2>
+      <p>The knowledge library provides comprehensive information, organized into the following sections</p>
+	<p> Planting in Small Spaces<p>
+
+           <p>Learn how to make use of balconies, rooftops, and indoor spaces for planting<p>
+         <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/2.0.webp" alt="Environmental Impact Calculator">
+
+          <p>Techniques like planting in pots, hanging baskets, or vertical racks <p>
+           <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/cach-lam-he-thong-tuoi-nho-giot-bang-chai-nhua-2.jpg" alt="Environmental Impact Calculator">
+
+         <p>Guides to create recycled racks from old materials like PVC pipes or wooden pallets.<p>
+          <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/download.jpg" alt="Environmental Impact Calculator">
+
+    </div>
+
+    <div id="impact" class="impact-section section">
+
+
+      <h2>Environmental Impact Calculator</h2>
+     <p>This online tool helps you understand and reduce your environmental impact:
+
+Measure Greenhouse Gas Emissions (GHG):
+
+Identify CO2, CH4, and N2O emissions from agricultural activities like planting and farming.
+Propose measures to reduce emissions, such as switching to organic farming or using renewable energy.
+<img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/1531816842_87-cay-xanh-khu-chung-cu.png">
+Estimate Water Consumption:
+
+Track water usage for each type of crop and find ways to reduce waste.
+Compare traditional irrigation systems with drip irrigation for suitable solutions.
+
+<img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/image00120230521074813.jpg">
+
+Check Recycling Efficiency
+
+Analyze your recycling rate and its positive impact on the environment.
+Suggest ways to enhance recycling efficiency, such as composting or recycling plastics..</p>
+      <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/dt_271020231018_tong-quan-cong0trinh-xanh-1.jpg">
+
+     
+    </div>
+    <div id="projects" class="projects-section section">
+
+
+      <h2>Community Project Map</h2>
+      <p> Community projects serve as the foundation for sustainable urban agriculture. The map provides information about <p>
+    <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/Lisa-Nicole-Imagery2.jpg" alt="Environmental Impact Calculator">
+
+      <p>Locations of Community Gardens
+
+Shared gardens where people plant and share produce.
+Contact information for joining or contributing to the projects. <p>
+
+    <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/t%E1%BA%A3i%20xu%E1%BB%91ng%20(7).jpg" alt="Environmental Impact Calculator">
+
+     <p>Educational and Training Projects
+
+Classes on planting, waste recycling, and environmental protection. <p>
+ 
+       <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/images%20(2).jpg" alt="Environmental Impact Calculator">
+    </div>
+    <div id="news" class="news-section section">
+
+      <h2>News and Events</h2>
+
+      <p>Stay updated with important events and news<p>
+
+      <p>Specialized Workshops
+
+Online and in-person workshops with experts on urban agriculture.
+Topics include soilless planting, water management, and waste reduction.<p>
+
+<img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/agroparistech-c-agroparistech-1-800x580.jpeg" alt="News and Events">
+
+       <p>Agricultural Product Fairs
+
+Meet suppliers and shop for organic products.
+Opportunities to test new products and learn experiences.<p>
+
+<img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/20180410-143620-800x580.jpg" alt="News and Events">
+
+        <p>New Projects
+
+Announcements of ongoing projects, such as designing new urban gardens or green initiatives..</p>
+
+      <img src="https://raw.githubusercontent.com/Jakid-Hoang/Jakid_1103561-Image/refs/heads/main/349667631_984853505842522_5116001214358285339_n.0.jpg" alt="News and Events">
+    </div>
+    
+  </div>
+
+  <script>
+    // Function to switch between sections
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => section.classList.remove('active')); // Hide all sections
+      document.getElementById(sectionId).classList.add('active'); // Show the selected section
+    }
+
+    // Carousel logic
+    let currentIndex = 0;
+
+    function updateCarousel() {
+      const carouselInner = document.getElementById('carouselInner');
+      const infoSection = document.getElementById('infoSection');
+
+      // Ensure the index loops within range
+      currentIndex = (currentIndex + 6) % 6;
+
+      // Update transform property to show the correct slide
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update info section
+      const titles = ["SDG 11: Sustainable Cities", "SDG 12: Responsible Consumption", "SDG 13: Climate Action", "", "", ""];
+      const descriptions = [
+        "SDG 11 aims to make cities inclusive, safe, resilient, and sustainable.",
+        "SDG 12 aims to ensure sustainable consumption and production patterns.",
+        "SDG 13 calls for urgent action to combat climate change and its impacts.",
+        "",
+        "",
+        ""
+      ];
+
+      infoSection.querySelector('h2').textContent = titles[currentIndex];
+      infoSection.querySelector('p').textContent = descriptions[currentIndex];
+    }
+
+    function nextSlide() {
+      currentIndex++;
+      updateCarousel();
+    }
+
+    function prevSlide() {
+      currentIndex--;
+      updateCarousel();
+    }
+  </script>
+</body>
+</html>
